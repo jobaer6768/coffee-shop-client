@@ -7,7 +7,7 @@ const Home = () => {
 
     const loadedCoffees = useLoaderData();
 
-    const [coffes, setCoffees] = useState(loadedCoffees);
+    const [coffees, setCoffees] = useState(loadedCoffees);
 
     return (
         <div className="my-20 container mx-auto">
@@ -19,9 +19,11 @@ const Home = () => {
             </div>
             <div className="grid md:grid-cols-2 gap-6">
                 {
-                    coffes.map(cof => <Coffee
+                    coffees.map(cof => <Coffee
                         key={cof._id}
                         cof={cof}
+                        coffees={coffees}
+                        setCoffees={setCoffees}
                     ></Coffee>)
                 }
             </div>

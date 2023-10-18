@@ -1,9 +1,45 @@
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2'
 
 
-const Coffee = ({ cof }) => {
+const Coffee = ({ cof, coffees, setCoffees }) => {
 
-    const { name, chef, supplier, taste, category, details, photo } = cof;
+    const { _id, name, chef, supplier, taste, photo } = cof;
+
+    const handleDelBtn = id => {
+        console.log(id);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to delete this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/coffee/${id}`, {
+                    method: "DELETE"
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+
+                        if (data.deletedCount) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+
+                            const remainingCoffees = coffees.filter(cofee => cofee._id !== id);
+                            setCoffees(remainingCoffees);
+                        }
+                    })
+            }
+        })
+    }
 
     return (
         <div className="card lg:card-side bg-base-100 shadow-xl">
@@ -31,7 +67,7 @@ const Coffee = ({ cof }) => {
                     <div className="btn-group btn-group-vertical space-y-2">
                         <button className="btn">View</button>
                         <button className="btn">Edit</button>
-                        <button className="btn">Delete</button>
+                        <button onClick={() => handleDelBtn(_id)} className="btn">Delete</button>
                     </div>
                 </div>
             </div>
@@ -42,5 +78,7 @@ const Coffee = ({ cof }) => {
 export default Coffee;
 
 Coffee.propTypes = {
-    cof: PropTypes.object
+    cof: PropTypes.object,
+    coffees: PropTypes.array,
+    setCoffees: PropTypes.any
 }
