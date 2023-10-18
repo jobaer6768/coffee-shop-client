@@ -1,13 +1,31 @@
-import { useLoaderData } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLoaderData } from "react-router-dom";
+import Coffee from "../Coffee/Coffee";
 
 
 const Home = () => {
 
     const loadedCoffees = useLoaderData();
 
+    const [coffes, setCoffees] = useState(loadedCoffees);
+
     return (
-        <div>
-            <h1 className="text-6xl text-red-400">{loadedCoffees.length}</h1>
+        <div className="my-20 container mx-auto">
+            <div className="text-center mb-10">
+                <h2 className="text-3xl font-bold mb-4">Our Popular Products</h2>
+                <Link to="/addCoffee">
+                    <button className="btn bg-[#E3B577] text-white font-semibold">Add Coffee</button>
+                </Link>
+            </div>
+            <div className="grid md:grid-cols-2 gap-6">
+                {
+                    coffes.map(cof => <Coffee
+                        key={cof._id}
+                        cof={cof}
+                    ></Coffee>)
+                }
+            </div>
+
         </div>
     );
 };
