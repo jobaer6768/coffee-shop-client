@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
 
@@ -66,7 +67,9 @@ const Coffee = ({ cof, coffees, setCoffees }) => {
                 <div className="">
                     <div className="btn-group btn-group-vertical space-y-2">
                         <button className="btn">View</button>
-                        <button className="btn">Edit</button>
+                        <Link to={`/updateCoffee/${_id}`}>
+                            <button className="btn">Edit</button>
+                        </Link>
                         <button onClick={() => handleDelBtn(_id)} className="btn">Delete</button>
                     </div>
                 </div>
